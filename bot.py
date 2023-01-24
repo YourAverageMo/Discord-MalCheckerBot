@@ -20,40 +20,21 @@ client = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix="/", intents=intents)
 
 
-def run_discord_bot():
-    # start the bot
-    @client.event
-    async def on_ready():
-        print(f"{client.user} is now running!")
-
-    client.run(TOKEN)
-
-
-
-# ------------ BOT FUNCTIONS
-async def send_message(message, user):
+@bot.event
+async def on_ready():
+    print(f"{client.user} is now running!")
     try:
-        response = responses.handle_response(user)
-        await message.channel.send(response)
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
 
-
-# ------------ WHEN BOT RECEIVES A MSG
-# @client.event
-# async def on_message(message):
-#     if message.author == client.user:  #ignore msg from bot
-#         return
-
-#     username = str(message.author)
-#     user_message = str(message.content)
-#     channel = str(message.channel)
-
-#     print(f"{username} said: {user_message} in {channel}")
-#     await send_message(message, username)
+@bot.tree.command(name="hello")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        f"Hey {interaction.user.mention}! this is a slash command!")
 
 
-# ------------ BOT COMMANDS
-@bot.command()
-async def ping(ctx):
-    await ctx.send("pong")
+if __name__ == "__main__":
+    # run the bot
+    bot.run(TOKEN)
