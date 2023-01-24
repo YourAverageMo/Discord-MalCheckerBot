@@ -4,7 +4,7 @@ import random
 def handle_response(user) -> str:
     user_lower = user.lower()
     
-    if user_lower == "iBosh" or user_lower == "Fluffyz":
+    if user_lower == "ibosh" or user_lower == "fluffyz":
         return f"Oh ya {user} is definitely a Mal, no question."
 
     else:
