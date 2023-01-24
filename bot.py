@@ -1,7 +1,6 @@
 import os
 
 import discord
-from discord import app_commands
 from discord.ext import commands
 from dotenv import find_dotenv, load_dotenv
 
@@ -14,27 +13,36 @@ TOKEN = os.getenv("TOKEN")
 # ------------ INTENTS ARE REQUIRED BY DISCORD
 intents = discord.Intents.default()
 intents.message_content = True
-client = discord.Client(intents=intents)
-
-# ------------ SETTING UP BOT COMMANDS
 bot = commands.Bot(command_prefix="/", intents=intents)
+
+
+# ------------ INIT BOT
+def run_discord_bot():
+    """Called in main.py. Starts bot
+    """
+    bot.run(TOKEN)
 
 
 @bot.event
 async def on_ready():
-    print(f"{client.user} is now running!")
+    """When bot is initialized prints out bot is ready and also syncs all bot commands
+    """
+    print(f"{bot.user} is now running!")
     try:
         synced = await bot.tree.sync()
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
 
+
+# ------------ BOT COMMANDS
 @bot.tree.command(name="hello")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(
-        f"Hey {interaction.user.mention}! this is a slash command!")
+        f"Hey {interaction.user}! this is a slash command!")
 
 
-if __name__ == "__main__":
-    # run the bot
-    bot.run(TOKEN)
+@bot.tree.command(name="useless_command")
+async def useless(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        f"You really have nothing else to do... do you?!")
