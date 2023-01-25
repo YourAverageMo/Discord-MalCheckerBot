@@ -36,13 +36,30 @@ async def on_ready():
 
 
 # ------------ BOT COMMANDS
-@bot.tree.command(name="hello")
+@bot.tree.command(name="hello", description="Say hi to MalCheckerBot!")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(
-        f"Hey {interaction.user}! this is a slash command!")
+        f"Hey {interaction.user}! MOOOOOooooooOOOOOOOOOO!")
 
 
 @bot.tree.command(name="useless_command")
 async def useless(interaction: discord.Interaction):
     await interaction.response.send_message(
         f"You really have nothing else to do... do you?!")
+
+
+@bot.tree.command(name="help", description="Kinda self explanatory.")
+async def help(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        f"If your using this command for such a simple bot you truly DO need help. I would recommend starting out here: https://www.betterhelp.com"
+    )
+
+
+@bot.tree.command(
+    name="mal_check",
+    description=
+    "Scientists have spend centuries working up a formula to isolate the Mal Gene. They found it!"
+)
+async def mal(interaction: discord.Interaction, member: discord.Member):
+    await interaction.response.send_message(
+        responses.handle_response(user=member.name))
